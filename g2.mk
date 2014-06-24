@@ -31,6 +31,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ueventd.g2.rc:root/ueventd.g2.rc \
     $(LOCAL_PATH)/fstab.g2:root/fstab.g2
 
+# TWRP
+PRODUCT_COPY_FILES += \
+    device/lge/g2-common/twrp.fstab:recovery/root/etc/twrp.fstab
+
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
