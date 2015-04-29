@@ -22,8 +22,8 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_VARIANT := krait
 TARGET_ARCH_VARIANT_CPU := cortex-a15
 ARCH_ARM_HAVE_TLS_REGISTER := true
-TARGET_KERNEL_TOOLCHAIN_VERSION := linaro-4.9
 TARGET_KERNEL_USE_AOSP_TOOLCHAIN := false
+KERNEL_TOOLCHAIN_PREFIX := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/linaro/linaro-4.9-cortex-a15/bin/arm-cortex_a15-linux-gnueabihf-
 
 TARGET_GLOBAL_CFLAGS += -O3 -mfpu=neon-vfpv4 -mfloat-abi=softfp -mvectorize-with-neon-quad
 
