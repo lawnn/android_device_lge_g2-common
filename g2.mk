@@ -68,12 +68,82 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
 
+#busybox
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/etc/sbin/busybox:root/sbin/busybox \
+    $(LOCAL_PATH)/rootdir/etc/res/synapse/files/busybox:root/res/synapse/files/busybox
+
 # Init
 PRODUCT_PACKAGES += \
     init.g2.rc \
     init.g2.usb.rc \
     ueventd.g2.rc \
-    fstab.g2
+    fstab.g2 \
+    boolean \
+    bracket-option \
+    buildprop \
+    cpuboostibf \
+    cpuset \
+    cpuvolt \
+    devtools \
+    dropcaches \
+    generic \
+    gpuset \
+    intellithermal \
+    ioset \
+    kcal \
+    live \
+    lmk \
+    mpdboostfreq \
+    numeric \
+    powersuspend \
+    restorebackup \
+    serviceset \
+    socset \
+    soundfaux \
+    speakerfaux \
+    sqlite \
+    touch \
+    voltage \
+    wake \
+    zram \
+    last_kmsg \
+    pvs_bin \
+    speed_bin \
+    bck_prof \
+    dropcaches_prof \
+    g2.sh \
+    gamma_prof \
+    gammafaux_prof \
+    gammafrancoN5_prof \
+    gammafranco_prof \
+    lmk_prof \
+    sound_prof \
+    speaker_prof \
+    volt_prof \
+    wake_prof \
+    config.json.generate \
+    config.json.generate.adv \
+    config.json.generate.bprop \
+    config.json.generate.cpu \
+    config.json.generate.cpuvolt \
+    config.json.generate.error \
+    config.json.generate.gpu \
+    config.json.generate.hotplug \
+    config.json.generate.info \
+    config.json.generate.io \
+    config.json.generate.mem \
+    config.json.generate.misc \
+    config.json.generate.profile \
+    config.json.generate.screen \
+    config.json.generate.sound \
+    config.json.generate.speaker \
+    config.json.generate.status \
+    config.json.generate.thermal \
+    config.json.generate.tools \
+    config.json.generate.wake \
+    sqlite3 \
+    uci
 
 PRODUCT_PACKAGES += \
     libwpa_client \
