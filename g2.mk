@@ -75,6 +75,8 @@ PRODUCT_COPY_FILES += \
 
 # Init
 PRODUCT_PACKAGES += \
+    init.render.post_boot.sh \
+    init.g2.power.rc \
     init.g2.rc \
     init.g2.usb.rc \
     ueventd.g2.rc \
