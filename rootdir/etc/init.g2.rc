@@ -1,13 +1,16 @@
 import init.g2.usb.rc
+import init.g2.power.rc
 
 on early-init
     # Mount Kernel DebugFS
+    mkdir /sys 0771 system system
     mount debugfs debugfs /sys/kernel/debug
     write /sys/class/leds/lcd-backlight/brightness 150
 
 on init
     # Set permissions for persist partition
-    mkdir /persist 0771 system system
+    mkdir /persist 0755 system system
+    mkdir /mpt 0755 system system
     mkdir /firmware 0771 system system
     mkdir /storage 0550 system sdcard_r
     mkdir /storage/usb 0000 system system
@@ -16,7 +19,9 @@ on init
     # Setup permissions for shell/media/sdcard locations
     mkdir /mnt/media_rw 0700 media_rw media_rw
     mkdir /mnt/media_rw/usb 0775 system system
+    # See storage config details at http://source.android.com/tech/storage/
     mkdir /mnt/shell/emulated 0700 shell shell
+    mkdir /storage 0550 system sdcard_r
     mkdir /storage/emulated 0555 root root
 
     export EXTERNAL_STORAGE /storage/emulated/legacy
@@ -37,12 +42,16 @@ on init
     setprop persist.radio.custom_ecc_voice "{515:117},{452:113,114,115}"
     setprop persist.radio.custom_ecc_hard "911,*911,#911,112,999,000,08,118,120,122,110,119,995,111,113,125,127,133"
 
+    mkdir /sns 0775 system system
+    mkdir /sns/cal 0771 system system
+
 on charger-fs
     mount ext4 /dev/block/platform/msm_sdcc.1/by-name/system  /system ro barrier=1
     start rmt_storage
 
 on fs
     mount_all ./fstab.g2
+    restorecon_recursive /sns
     write /sys/kernel/boot_adsp/boot 1
     setprop ro.crypto.fuse_sdcard true
 
@@ -106,8 +115,11 @@ on boot
 
     # Remove write permissions to video related nodes
     chmod 0664 /sys/devices/virtual/graphics/fb1/hpd
+    chmod 0664 /sys/devices/virtual/graphics/fb1/video_mode
+    chmod 0664 /sys/devices/virtual/graphics/fb1/format_3d
 
     # Change owner and group for media server and surface flinger
+    chown system system /sys/devices/virtual/graphics/fb1/format_3d
     chown system system /sys/devices/virtual/graphics/fb1/hpd
 
     #For bridgemgr daemon to inform the USB driver of the correct transport
@@ -144,6 +156,7 @@ on boot
     write /proc/sys/net/core/rmem_max  2097152
     write /proc/sys/net/core/wmem_max  2097152
 
+on boot
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
     chmod 0660 /sys/class/rfkill/rfkill0/state
@@ -322,8 +335,10 @@ on post-fs-data
 
     # Torch
     chown system camera /sys/class/leds/led:flash_torch/brightness
-    chmod 0664 /sys/class/leds/led:flash_torch/brightness
+    chmod 0660 /sys/class/leds/led:flash_torch/brightness
 
+    chown system radio /sys/devices/virtual/input/lge_touch/touch_gesture
+    chmod 0664 /sys/devices/virtual/input/lge_touch/touch_gesture
     chown root system /sys/devices/platform/tspdrv/nforce_timed
     chown root system /sys/devices/platform/kcal_ctrl.0/kcal
     chown root system /sys/devices/platform/kcal_ctrl.0/kcal_ctrl
@@ -359,6 +374,11 @@ on property:init.svc.wpa_supplicant=stopped
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
+
+service run-parts /system/xbin/run-parts
+    class main
+    user root
+    group root system
 
 service bridgemgrd /system/bin/bridgemgrd
     class main
@@ -419,7 +439,7 @@ service charger /sbin/healthd -c
 service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
     class late_start
 
-service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+service mpdecision /system/bin/mpdecision --avg_comp
     class main
 
 service qcamerasvr /system/bin/mm-qcamera-daemon
@@ -436,7 +456,7 @@ service cnd /system/bin/cnd
     class late_start
     socket cnd stream 660 root inet
 
-service thermal-engine /system/bin/thermal-engine
+service thermal-engine /system/bin/thermal-engine --time=20
    class late_start
    user root
    group root
