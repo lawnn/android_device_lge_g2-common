@@ -33,6 +33,9 @@ CLANG_TARGET_GLOBAL_CFLAGS += -Ofast -mfpu=neon-vfpv4 -mfloat-abi=softfp
 
 CLANG_TARGET_GLOBAL_CPPFLAGS += -Ofast -mfpu=neon-vfpv4 -mfloat-abi=softfp
 
+# Liquid Optimizations
+LIQUIFY=true
+
 # Qcom optimizations
 TARGET_USE_QCOM_BIONIC_OPTIMIZATION := true
 
