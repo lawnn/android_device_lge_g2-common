@@ -221,3 +221,7 @@ PRODUCT_COPY_FILES += \
 
 #AOJP Common
 $(call inherit-product-if-exists, vendor/aojp/config/aojp.mk)
+
+# Mozc
+PRODUCT_PACKAGES += \
+    Mozc
