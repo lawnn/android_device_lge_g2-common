@@ -41,6 +41,7 @@ BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := device/lge/g2-common/releasetools/mkbootimg.mk
 TARGET_KERNEL_SOURCE := kernel/lge/msm8974
 TARGET_KERNEL_ARCH := arm
+KERNEL_TOOLCHAIN_PREFIX := $(ANDROID_BUILD_TOP)/kernel/lge/msm8974/android-toolchain/bin/arm-LG-linux-gnueabi-
 
 # Audio
 BOARD_USES_ALSA_AUDIO:= true
