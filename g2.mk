@@ -217,3 +217,7 @@ $(call inherit-product-if-exists, hardware/qcom/msm8x74/msm8x74.mk)
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/98knock-on-On:system/etc/init.d/98knock-on-On \
     $(LOCAL_PATH)/Kernel_Auditor.apk:system/app/Auditor/Auditor.apk
+
+
+#AOJP Common
+$(call inherit-product-if-exists, vendor/aojp/config/aojp.mk)
